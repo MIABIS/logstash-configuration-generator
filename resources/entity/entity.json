@@ -1,0 +1,83 @@
+[
+	{
+		"file": "standardfile"
+	}, 
+	{
+		"entity": [
+			{
+				"Sample": {
+					"attributes": [
+						"ID",
+						"Parent sample ID",
+						"Material type",
+						"Storage temperature",
+						"Sampled time",
+						"Anatomical site",
+						"Sex",
+						"Age",
+						"Age Unit",
+						"Disease Ontology",
+						"Disease Ontology Version",
+						"Disease Ontology Code",
+						"Disease Ontology Description",
+						"Disease Free Text",
+						"Sample Collection",
+						"Study"
+					]
+				}
+			},
+			{
+				"Sample Collection": {
+					"attributes": [
+						"ID",
+						"Acronym",
+						"Name",
+						"Description",
+						"Sex",
+						"Age Low",
+						"Age High",
+						"Age Unit",
+						"Data categories",
+						"Material type",
+						"Storage temperature",
+						"Collection type",
+						"Disease",
+						"Contact Information"
+					]
+				}
+			}, 
+			{
+				"Study": {
+					"attributes": [
+						"ID",
+						"Name",
+						"Description",
+						"Principal Investigator",
+						"Contact Information",
+						"Study design",
+						"Data categories",
+						"Material type",
+						"Total number of participants",
+						"Total number of sample donors",
+						"Inclusion criteria"
+					]
+				}
+			}, 
+			{
+				"Contact Information": {
+					"attributes": [
+						"ID",
+						"First name",
+						"Last name",
+						"Phone",
+						"Email",
+						"Address",
+						"ZIP",
+						"City",
+						"Country"
+					]
+				}
+			}
+		]
+	}
+]

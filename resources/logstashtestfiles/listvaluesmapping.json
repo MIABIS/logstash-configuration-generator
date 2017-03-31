@@ -1,0 +1,61 @@
+[
+    {
+        "file": "mapfile",
+        "type": "listvaluesmapping"
+    },
+    {
+        "attribute": [
+            {
+                "Sex": {
+                    "Male": "Man",
+                    "Female": "Woman",
+                    "Unknown": "N\/A",
+                    "Undifferentiated": ""
+                }
+            },
+            {
+                "Material Type": {
+                    "Blood": "Whole Blood",
+                    "DNA": "DNA",
+                    "Faeces": "Stool",
+                    "Immortalized Cell Lines": "",
+                    "Isolated Pathogen": "",
+                    "Plasma": "",
+                    "RNA": "RNA",
+                    "Saliva": "Saliva",
+                    "Serum": "",
+                    "Tissue (Frozen)": "Frozen Tissue",
+                    "Tissue (FFPE)": "",
+                    "Urine": "",
+                    "Other": ""
+                }
+            },
+            {
+                "Data Categories": {
+                    "Biological samples": "Sample data",
+                    "Survey data": "",
+                    "Imaging data": "Image data",
+                    "Medical records": "MHR",
+                    "National registries": "",
+                    "Genealogical records": "",
+                    "Physiological\/Biochemical measurements": "",
+                    "Other": ""
+                }
+            },
+            {
+                "Collection Type": {
+                    "Case-control": "Case-control",
+                    "Cohort": "",
+                    "Cross-sectional": "DCvalue5",
+                    "Longitudinal": "",
+                    "Twin-study": "Twin collection",
+                    "Quality control": "",
+                    "Population-based": "",
+                    "Disease specific": "",
+                    "Birth cohort": "Cohort",
+                    "Other": ""
+                }
+            }
+        ]
+    }
+]
