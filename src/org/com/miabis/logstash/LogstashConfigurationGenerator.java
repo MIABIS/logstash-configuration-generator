@@ -38,6 +38,7 @@ public class LogstashConfigurationGenerator {
 	
 	private static String inputPort;
 	private static String entityFile;
+	private static String orgId;
 	private static String logstashFilesFolder;
 	private static String type;
 	private static String directoryDepth;
@@ -58,32 +59,32 @@ public class LogstashConfigurationGenerator {
 		try {
 			inputPort = args[0];
 			entityFile = args[1];
-			logstashFilesFolder = args[2];
-			type = args[3];
-			directoryDepth = args[4];
-			driverJarPath = args[5];
-			databaseName = args[6];
-			databaseUser = args[7];
-			databasePassword = args[8];
+			orgId = args[2];
+			logstashFilesFolder = args[3];
+			type = args[4];
+			directoryDepth = args[5];
+			driverJarPath = args[6];
+			databaseName = args[7];
+			databaseUser = args[8];
+			databasePassword = args[9];
 			
 			
-			File file = new File(System.getProperty("user.dir")+File.separator+"generated"+File.separator+"logstash.conf");
-			file.getParentFile().mkdirs();
 			
-			writer = new BufferedWriter(new FileWriter(file));
 			
-			generateInputBlock(inputPort);
+			
+			
 			
 			JSONParser parser = new JSONParser();
 			
 			JSONArray entityArray = (JSONArray) parser.parse(new FileReader(entityFile));
-			JSONObject jo = (JSONObject) entityArray.get(1);
-			JSONArray entities = (JSONArray) jo.get("entity");
+			JSONObject joe = (JSONObject) entityArray.get(1);
+			JSONArray entities = (JSONArray) joe.get("entity");
 			Iterator eit = entities.iterator();
 			
 			while(eit.hasNext()){
 				entity.add(((JSONObject)eit.next()).keySet().iterator().next().toString());
 			}
+			
 			
 			
 			File folder = new File(logstashFilesFolder);
@@ -114,9 +115,25 @@ public class LogstashConfigurationGenerator {
 			}
 				
 			
+			File file = new File(System.getProperty("user.dir")+File.separator+"generated"+File.separator+orgId+"_filebeat_to_database_logstash.conf");
+			file.getParentFile().mkdirs();
 			
+			writer = new BufferedWriter(new FileWriter(file));
+			
+			generateInputBlock(inputPort);
 			generateFilterBlock(folder, type, directoryDepth);
 			generateOutputBlock(driverJarPath, databaseName, databaseUser, databasePassword);
+			
+			writer.close();
+			
+			
+			
+			File file1 = new File(System.getProperty("user.dir")+File.separator+"generated"+File.separator+orgId+"_database_to_elastic_logstash.conf");
+			file1.getParentFile().mkdirs();
+			writer = new BufferedWriter(new FileWriter(file1));
+			
+			generateInputBlock1(driverJarPath, databaseName, databaseUser, databasePassword, orgId);
+			generateOutputBlock1(orgId);
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -166,6 +183,82 @@ public class LogstashConfigurationGenerator {
 	}
 	
 	
+	private static void generateInputBlock1(String driverJarPath, String databaseName, String databaseUser, String databasePassword, String orgId) {
+	
+		/*input{
+
+			  jdbc {
+			  	  jdbc_driver_library => "C:/logstash-5.0.1/mysql-connector-java-5.1.40-bin.jar"
+			      jdbc_connection_string => "jdbc:mysql://localhost:3306/miabis-federation"
+			      jdbc_driver_class => "com.mysql.jdbc.Driver"
+			      jdbc_user => "root"
+			      jdbc_password => "suyesh"
+			      statement => "select sample.*, sample_collection.*, study.*, contact_information.* 
+			      				from 
+			      					sample 
+			      						left join 
+			      					sample_collection 
+			      						on sample.sample_collection_id=sample_collection.id
+			      						left join
+			      					study
+			      						on sample.study_id=study.id
+			      						left join 
+			      					contact_information 
+			      						on sample_collection.contact_information=contact_information.id
+			      						left join
+			      					contact_information
+			      						on study.contact_information=contact_information.id"
+			      type => "biobank_sample"
+			      add_field => { "biobank" => "%{[fields][origin]}" } 
+			  }
+			  
+			  	
+		}*/
+		
+		try {
+			writer.write("input {");
+			writer.newLine();
+			writer.write("\tjdbc {");
+			writer.newLine();
+			writer.write("\t\tjdbc_driver_library => \""+driverJarPath+"\"");
+			writer.newLine();
+			writer.write("\t\tjdbc_connection_string => \"jdbc:mysql://localhost:3306/"+databaseName+"\"");
+			writer.newLine();
+			writer.write("\t\tjdbc_driver_class => \"com.mysql.jdbc.Driver\"");
+			writer.newLine();
+			writer.write("\t\tjdbc_user => \""+databaseUser+"\"");
+			writer.newLine();
+			writer.write("\t\tjdbc_password => \""+databasePassword+"\"");
+			writer.newLine();
+			writer.write("\t\tstatement => \"select sample.*, sample_collection.*, study.*, contact_information.* "
+			      				+"from " 
+			      				+"	sample "
+			      				+"		left join "
+			      				+"	sample_collection "
+			      				+"		on sample.sample_collection_id=sample_collection.id "
+			      				+"		left join "
+			      				+"	study "
+			      				+"		on sample.study_id=study.id "
+			      				+"		left join "
+			      				+"	contact_information " 
+			      				+"		on sample_collection.contact_information=contact_information.id "
+			      				+"		left join "
+			      				+"	contact_information as ci "
+			      				+"		on study.contact_information=ci.id\"");
+			writer.newLine();
+			writer.write("\t\ttype => \""+orgId+"\"");
+			writer.newLine();
+			writer.write("\t}");
+			writer.newLine();
+			writer.write("}");
+			writer.newLine();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 	private static void generateFilterBlock(File folder, String type, String directoryDepth){
 		
 		/*filter {
@@ -205,18 +298,21 @@ public class LogstashConfigurationGenerator {
 				if [sub_type] == "Sample.csv" {
 					csv {
 						columns => ["ID", "Parent sample ID", "Material type", "SAMPLE_VOLUME", "SAMPLE_UNITS", "KI_SPREC", "Sex", "Age", "CLINICAL_TRIAL", "T_SAMPLE_FORM", "T_SAMPLE_STATE", "PROJECT", "Sample Collection", "Study"]
+						separator => ","
 					}
 				}
 
 				if [sub_type] == "Sample Collection.csv" {
 					csv {
 						columns => ["ID", "Name", "Acronym", "Description", "DATE_CREATED", "DATE_COMPLETED", "NUM_SAMPLES", "GROUP_NAME", "Contact Information", ""]
+						separator => ","
 					}
 				}
 
 				if [sub_type] == "Study.csv" {
 					csv {
 						columns => ["ID", "Name", "Principal Investigator", "Description", "Study design", "KI_ANATOMIC_SYSTEMS", "Material type", "GROUP_NAME", "Contact Information", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+						separator => ","
 					}
 				}
 			}
@@ -315,7 +411,67 @@ public class LogstashConfigurationGenerator {
 					}
 					
 					writer.newLine();
+					writer.write("\t\t\t\tseparator => \",\"");
+					writer.newLine();
 					writer.write("\t\t\t}");
+					
+					
+					
+					JSONArray ma = (JSONArray) parser.parse(new FileReader(folder+File.separator+LIST_VALUES_MAPPING_FILE_NAME));
+					JSONObject mo = (JSONObject) ma.get(1);
+					JSONArray attrArray = (JSONArray)  mo.get("attribute");
+					for(Iterator attrItr = attrArray.iterator(); attrItr.hasNext();){
+						JSONObject joAttr = (JSONObject) attrItr.next();
+						String attributeName = joAttr.keySet().iterator().next().toString();
+						
+						writer.newLine();
+						writer.write("\t\t\ttranslate {");
+						writer.newLine();
+						writer.write("\t\t\t\tfield => \""+attributeName+"\"");
+						writer.newLine();
+						writer.write("\t\t\t\tdestination => \""+attributeName+"\"");
+						writer.newLine();
+						writer.write("\t\t\t\texact => true");
+						writer.newLine();
+						writer.write("\t\t\t\toverride => true");
+						writer.newLine();
+						writer.write("\t\t\t\tdictionary => [");
+						
+						
+						JSONObject jolv = (JSONObject) joAttr.get(attributeName);
+						Iterator lvmIterator = jolv.keySet().iterator();
+						Map<String, String> valuesMapping = new HashMap<String, String>();
+						while(lvmIterator.hasNext()){
+							String key = lvmIterator.next().toString();
+							String value = jolv.get(key).toString().trim();
+							
+							if(!value.isEmpty()){
+								valuesMapping.put(key, value);
+							}
+							
+						}
+						
+						
+						for (Iterator<Map.Entry<String,String>> entries = valuesMapping.entrySet().iterator(); entries.hasNext();) {
+							
+							Map.Entry<String,String> entry = entries.next();
+							writer.write("\""+entry.getValue()+"\", ");
+							writer.write("\""+entry.getKey()+"\"");
+							if(entries.hasNext()){
+								writer.write(", ");
+							}
+							
+						}
+						
+						writer.write("]");
+						writer.newLine();
+						writer.write("\t\t\t}");
+					}
+					
+					
+					
+					
+					
 					writer.newLine();
 					writer.write("\t\t}");
 					writer.newLine();
@@ -476,4 +632,55 @@ public class LogstashConfigurationGenerator {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	private static void generateOutputBlock1(String orgId){
+		
+		/*output {
+
+			  #stdout { codec => json }
+			  stdout { codec => rubydebug }
+			  
+			  file {
+			  	path => "C:/logstash-5.0.1/bin/output.log"
+			   	codec => rubydebug
+			  }
+			  
+			  if [type] == "biobank_sample" {
+			        elasticsearch {
+			            hosts => ["localhost:9200"]
+			            document_id => "%{id}"
+			        }
+			  }
+			  
+		}*/
+		
+		try {
+			writer.newLine();
+			writer.write("output {");
+			writer.newLine();
+			writer.write("\tstdout { codec => rubydebug }");
+			writer.newLine();
+			writer.newLine();
+			writer.write("\tif [type] == \""+orgId+"\" {");
+			writer.newLine();
+			writer.write("\t\telasticsearch {");
+			writer.newLine();
+			writer.write("\t\t\thosts => [\"localhost:9200\"]");
+			writer.newLine();
+			writer.write("\t\t\tdocument_id => \"%{id}\"");
+			writer.newLine();
+			writer.write("\t\t}");
+			writer.newLine();
+			writer.write("\t}");
+			writer.newLine();
+			writer.write("}");
+			writer.newLine();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 }

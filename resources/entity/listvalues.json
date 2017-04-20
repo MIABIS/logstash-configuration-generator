@@ -1,0 +1,61 @@
+[
+	{
+		"file": "standardfile"
+	}, 
+	{
+		"attribute": [
+			{
+				"Sex": 	[
+					"Male",
+					"Female",
+					"Unknown",
+					"Undifferentiated"
+				]
+				
+			},
+			{
+				"Material Type": 	[
+					"Blood",
+                    "DNA",
+                    "Faeces",
+                    "Immortalized Cell Lines",
+                    "Isolated Pathogen",
+                    "Plasma",
+                    "RNA",
+                    "Saliva",
+                    "Serum",
+                    "Tissue (Frozen)",
+                    "Tissue (FFPE)",
+                    "Urine",
+                    "Other"
+				]
+			}, 
+			{
+				"Data Categories": 	[
+					"Biological samples",
+                    "Survey data",
+                    "Imaging data",
+                    "Medical records",
+                    "National registries",
+                    "Genealogical records",
+                    "Physiological/Biochemical measurements",
+                    "Other"
+				]
+			}, 
+			{
+				"Collection Type": 	[
+					"Case-control",
+                    "Cohort",
+                    "Cross-sectional",
+                    "Longitudinal",
+                    "Twin-study",
+                    "Quality control",
+                    "Population-based",
+                    "Disease specific",
+                    "Birth cohort",
+                    "Other"
+				]
+			}
+		]
+	}
+]
