@@ -115,25 +115,36 @@ public class LogstashConfigurationGenerator {
 			}
 				
 			
-			File file = new File(System.getProperty("user.dir")+File.separator+"generated"+File.separator+orgId+"_filebeat_to_database_logstash.conf");
-			file.getParentFile().mkdirs();
+			File inputBeatsFile = new File(System.getProperty("user.dir")+File.separator+"generated"+File.separator+orgId+"_input-beats.conf");
+			inputBeatsFile.getParentFile().mkdirs();
+			writer = new BufferedWriter(new FileWriter(inputBeatsFile));
+			generateInputBlockBeats(inputPort);
+			writer.close();
 			
-			writer = new BufferedWriter(new FileWriter(file));
-			
-			generateInputBlock(inputPort);
+			File filterFile = new File(System.getProperty("user.dir")+File.separator+"generated"+File.separator+orgId+"_filter.conf");
+			filterFile.getParentFile().mkdirs();
+			writer = new BufferedWriter(new FileWriter(filterFile));
 			generateFilterBlock(folder, type, directoryDepth);
-			generateOutputBlock(driverJarPath, databaseName, databaseUser, databasePassword);
+			writer.close();
 			
+			File outputDatabaseFile = new File(System.getProperty("user.dir")+File.separator+"generated"+File.separator+orgId+"_output-database.conf");
+			outputDatabaseFile.getParentFile().mkdirs();
+			writer = new BufferedWriter(new FileWriter(outputDatabaseFile));
+			generateOutputBlockDatabase(driverJarPath, databaseName, databaseUser, databasePassword);
 			writer.close();
 			
 			
+			File inputDatabaseFile = new File(System.getProperty("user.dir")+File.separator+"generated"+File.separator+orgId+"_input-database.conf");
+			inputDatabaseFile.getParentFile().mkdirs();
+			writer = new BufferedWriter(new FileWriter(inputDatabaseFile));
+			generateInputBlockDatabase(driverJarPath, databaseName, databaseUser, databasePassword, orgId);
+			writer.close();
 			
-			File file1 = new File(System.getProperty("user.dir")+File.separator+"generated"+File.separator+orgId+"_database_to_elastic_logstash.conf");
-			file1.getParentFile().mkdirs();
-			writer = new BufferedWriter(new FileWriter(file1));
-			
-			generateInputBlock1(driverJarPath, databaseName, databaseUser, databasePassword, orgId);
-			generateOutputBlock1(orgId);
+			File outputElasticFile = new File(System.getProperty("user.dir")+File.separator+"generated"+File.separator+orgId+"_output-elastic.conf");
+			outputElasticFile.getParentFile().mkdirs();
+			writer = new BufferedWriter(new FileWriter(outputElasticFile));
+			generateOutputBlockElastic(orgId);
+			writer.close();
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -153,7 +164,7 @@ public class LogstashConfigurationGenerator {
 		
 	}
 
-	private static void generateInputBlock(String inputPort) {
+	private static void generateInputBlockBeats(String inputPort) {
 		// TODO Auto-generated method stub
 		/*input{
 
@@ -183,7 +194,7 @@ public class LogstashConfigurationGenerator {
 	}
 	
 	
-	private static void generateInputBlock1(String driverJarPath, String databaseName, String databaseUser, String databasePassword, String orgId) {
+	private static void generateInputBlockDatabase(String driverJarPath, String databaseName, String databaseUser, String databasePassword, String orgId) {
 	
 		/*input{
 
@@ -320,7 +331,6 @@ public class LogstashConfigurationGenerator {
 		
 		
 		try {
-			writer.newLine();
 			writer.write("filter {");
 			writer.newLine();
 			writer.write("\tif [type] == \""+type+"\" {");
@@ -504,7 +514,7 @@ public class LogstashConfigurationGenerator {
 		return null;
 	}
 
-	private static void generateOutputBlock(String driverJarPath, String databaseName, String databaseUser, String databasePassword){
+	private static void generateOutputBlockDatabase(String driverJarPath, String databaseName, String databaseUser, String databasePassword){
 		/*output {
 
 			  #stdout { codec => json }
@@ -541,10 +551,74 @@ public class LogstashConfigurationGenerator {
 			  }
 			    
 			}*/
+		
+		
+		/*Modified INSERT statement for INSERT ... ON DUPLICATE KEY UPDATE Syntax
+		
+		[ "INSERT INTO SAMPLE 
 
+		  (SAMPLE_ID, DISEASE, MIABIS_MATERIAL_TYPE, MATERIAL_TYPE, ANATOMICAL_SITE, 
+
+		  SEX, DIAGNOSIS_TYPE, GENOTYPE_DATA_AVAILABLE, AGE_AT_SAMPLING, 
+
+		  AGE_AT_DEATH, AGE_AT_DIAGNOSIS, AGE_AT_REMISSION, AFFECTED, 
+
+		  FAMILY_MEMBERS_AVAILABLE, RELATED_SAMPLES_AVAILABLE, 
+
+		  REGISTRY_DATA_AVAILABLE, HOSTING_BIOBANK, HOSTING_REGISTRY, 
+
+		  PARTICIPANT_ID, DATE_OF_LAST_UPDATE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+
+		  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE SAMPLE_ID=VALUES(SAMPLE_ID), DISEASE=VALUES(DISEASE), 
+
+		  MIABIS_MATERIAL_TYPE=VALUES(MIABIS_MATERIAL_TYPE), MATERIAL_TYPE=VALUES
+
+		  (MATERIAL_TYPE), ANATOMICAL_SITE=VALUES(ANATOMICAL_SITE), SEX=VALUES(SEX), 
+
+		  DIAGNOSIS_TYPE=VALUES(DIAGNOSIS_TYPE), GENOTYPE_DATA_AVAILABLE=VALUES
+
+		  (GENOTYPE_DATA_AVAILABLE), AGE_AT_SAMPLING=VALUES(AGE_AT_SAMPLING), 
+
+		  AGE_AT_DEATH=VALUES(AGE_AT_DEATH), AGE_AT_DIAGNOSIS=VALUES
+
+		  (AGE_AT_DIAGNOSIS), AGE_AT_REMISSION=VALUES(AGE_AT_REMISSION), 
+
+		  AFFECTED=VALUES
+
+		  (AFFECTED), FAMILY_MEMBERS_AVAILABLE=VALUES
+
+		  (FAMILY_MEMBERS_AVAILABLE), 
+
+		  RELATED_SAMPLES_AVAILABLE=VALUES
+
+		  (RELATED_SAMPLES_AVAILABLE), 
+
+		  REGISTRY_DATA_AVAILABLE=VALUES
+
+		  (REGISTRY_DATA_AVAILABLE), 
+
+		  HOSTING_BIOBANK=VALUES(HOSTING_BIOBANK), 
+
+		  HOSTING_REGISTRY=VALUES(HOSTING_REGISTRY), PARTICIPANT_ID=VALUES
+
+		  (PARTICIPANT_ID), 
+
+		  DATE_OF_LAST_UPDATE=VALUES(DATE_OF_LAST_UPDATE)", "%{[fields][origin]}_%{Sample ID}", 
+
+		  "Disease", "MIABIS Material Type", "Material Type", "Anatomical Site", 
+
+		  "Sex", "Diagnosis Type", "Genotype data available", "Age at Sampling", 
+
+		  "Age at Death", "Age at Diagnosis", "Age at Remission", "Affected", 
+
+		  "Family members available", "Related samples available", "Registry data 
+
+		  available", "Hosting Biobank", "Hosting Registry", "Participant ID", "Date 
+
+		  of last update"]
+*/
 		
 		try {
-			writer.newLine();
 			writer.write("output {");
 			writer.newLine();
 			writer.write("\tstdout { codec => rubydebug }");
@@ -585,6 +659,8 @@ public class LogstashConfigurationGenerator {
 					
 					JSONArray attributesArray = (JSONArray) attributes.get("attributes");
 					String appendStringQuestionMark = " VALUES (";
+					String appendOnDuplicateKeyUpdate = " ON DUPLICATE KEY UPDATE ";
+					String appendOnDuplicateKeyUpdateColumns = "";
 					String appendStringValues = " ";
 					
 					for(Iterator attributesArrayIterator = attributesArray.iterator(); attributesArrayIterator.hasNext();){
@@ -600,6 +676,8 @@ public class LogstashConfigurationGenerator {
 						appendStringQuestionMark = appendStringQuestionMark.concat(questionMark+comma);
 						appendStringValues = appendStringValues.concat("\""+column+"\""+comma);
 						writer.write(column.replaceAll("\\s+", "_").toUpperCase()+comma);
+						appendOnDuplicateKeyUpdateColumns = appendOnDuplicateKeyUpdateColumns.concat(column.replaceAll("\\s+", "_").toUpperCase()
+								+"=VALUES("+column.replaceAll("\\s+", "_").toUpperCase()+")"+comma);
 						
 						if(!attributesArrayIterator.hasNext()){
 							writer.write(")");
@@ -607,7 +685,10 @@ public class LogstashConfigurationGenerator {
 						}
 					}
 					
-					writer.write(appendStringQuestionMark+"\",");
+					
+					writer.write(appendStringQuestionMark);
+					writer.write(appendOnDuplicateKeyUpdate);
+					writer.write(appendOnDuplicateKeyUpdateColumns+"\",");
 					writer.write(appendStringValues+" ]");
 					
 					writer.newLine();
@@ -634,7 +715,7 @@ public class LogstashConfigurationGenerator {
 	}
 	
 	
-	private static void generateOutputBlock1(String orgId){
+	private static void generateOutputBlockElastic(String orgId){
 		
 		/*output {
 
@@ -656,7 +737,6 @@ public class LogstashConfigurationGenerator {
 		}*/
 		
 		try {
-			writer.newLine();
 			writer.write("output {");
 			writer.newLine();
 			writer.write("\tstdout { codec => rubydebug }");

@@ -6,20 +6,27 @@
         "entity": {
             "Sample": {
                 "attributes": [
-                    "provid",
-                    "GROUP_NAME",
-                    "SAMPLE_TYPE",
-                    "SAMPLE_VOLUME",
-                    "SAMPLE_UNITS",
-                    "KI_SPREC",
-                    "T_GENDER",
-                    "T_AGE",
-                    "CLINICAL_TRIAL",
-                    "T_SAMPLE_FORM",
-                    "T_SAMPLE_STATE",
-                    "PROJECT",
-                    "PROJECT_ID",
-                    "STUDY_CODE"
+                    "Sample ID",
+                    "Diagnosis",
+                    "MIABIS-Type",
+                    "Material Type",
+                    "Anatomical Site",
+                    "Gender",
+                    "Diagnosis Type",
+                    "Volume",
+                    "Genotype data",
+                    "Age at Sampling",
+                    "Age at Death",
+                    "Age at Diagnosis",
+                    "Age at Remission",
+                    "Affected",
+                    "Family members",
+                    "Related samples",
+                    "Registry data",
+                    "Biobank",
+                    "Registry",
+                    "Participant ID",
+                    "Last update"
                 ]
             }
         }

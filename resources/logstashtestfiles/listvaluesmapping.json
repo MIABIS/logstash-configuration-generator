@@ -6,54 +6,139 @@
     {
         "attribute": [
             {
-                "Sex": {
-                    "Male": "Man",
-                    "Female": "Woman",
-                    "Unknown": "N\/A",
-                    "Undifferentiated": ""
+                "MIABIS Material Type": {
+                    "Blood": "",
+                    "DNA": "",
+                    "Faeces": "",
+                    "Immortalized Cell Lines": "",
+                    "Isolated Pathogen": "",
+                    "Other": "",
+                    "Plasma": "",
+                    "RNA": "",
+                    "Saliva": "",
+                    "Serum": "",
+                    "Tissue (Frozen)": "",
+                    "Tissue (FFPE)": "",
+                    "Urine": ""
                 }
             },
             {
                 "Material Type": {
-                    "Blood": "Whole Blood",
-                    "DNA": "DNA",
-                    "Faeces": "Stool",
-                    "Immortalized Cell Lines": "",
-                    "Isolated Pathogen": "",
+                    "Leukocyte": "",
                     "Plasma": "",
-                    "RNA": "RNA",
-                    "Saliva": "Saliva",
                     "Serum": "",
-                    "Tissue (Frozen)": "Frozen Tissue",
-                    "Tissue (FFPE)": "",
+                    "Fibroblast": "",
+                    "DNA": "",
+                    "Lymphoblast": "",
+                    "RNA": ""
+                }
+            },
+            {
+                "Anatomical Site": {
+                    "Blood": "",
                     "Urine": "",
-                    "Other": ""
+                    "Plasma": "",
+                    "Serum": "",
+                    "Skin": "",
+                    "Muscle tissue": "",
+                    "Eye Muscle": ""
                 }
             },
             {
-                "Data Categories": {
-                    "Biological samples": "Sample data",
-                    "Survey data": "",
-                    "Imaging data": "Image data",
-                    "Medical records": "MHR",
-                    "National registries": "",
-                    "Genealogical records": "",
-                    "Physiological\/Biochemical measurements": "",
-                    "Other": ""
+                "Sex": {
+                    "Female": "",
+                    "Male": "",
+                    "Ambiguous": ""
                 }
             },
             {
-                "Collection Type": {
-                    "Case-control": "Case-control",
-                    "Cohort": "",
-                    "Cross-sectional": "DCvalue5",
-                    "Longitudinal": "",
-                    "Twin-study": "Twin collection",
-                    "Quality control": "",
-                    "Population-based": "",
-                    "Disease specific": "",
-                    "Birth cohort": "Cohort",
-                    "Other": ""
+                "Diagnosis Type": {
+                    "Not Specified": "",
+                    "Autoptic": "",
+                    "Biochemical": "",
+                    "Clinical": "",
+                    "Echographic": "",
+                    "Electrophysiological": "",
+                    "Enzymatic": "",
+                    "Hystological": "",
+                    "Molecular": "",
+                    "Neuroradiological": "",
+                    "Radiological": "",
+                    "Cytogenetics": ""
+                }
+            },
+            {
+                "Genotype data available": {
+                    "Yes": "",
+                    "No": "",
+                    "Unknown": "",
+                    "Not asked": "",
+                    "Not available": ""
+                }
+            },
+            {
+                "Affected": {
+                    "Yes": "",
+                    "No": "",
+                    "Unknown": "",
+                    "Not asked": "",
+                    "Not available": ""
+                }
+            },
+            {
+                "Family members available": {
+                    "Yes": "",
+                    "No": "",
+                    "Unknown": "",
+                    "Not asked": "",
+                    "Not available": ""
+                }
+            },
+            {
+                "Related samples available": {
+                    "Yes": "",
+                    "No": "",
+                    "Unknown": "",
+                    "Not asked": "",
+                    "Not available": ""
+                }
+            },
+            {
+                "Registry data available": {
+                    "Yes": "",
+                    "No": "",
+                    "Unknown": "",
+                    "Not asked": "",
+                    "Not available": ""
+                }
+            },
+            {
+                "Disease": {
+                    "Autosomal dominant limb-girdle muscular dystrophy type 1B": "",
+                    "Autosomal dominant limb-girdle muscular dystrophy type 1C": "",
+                    "Autosomal recessive limb-girdle muscular dystrophy type 2A": "",
+                    "Autosomal recessive limb-girdle muscular dystrophy type 2B": "",
+                    "Autosomal recessive limb-girdle muscular dystrophy type 2C": "",
+                    "Autosomal recessive limb-girdle muscular dystrophy type 2I": "",
+                    "Autosomal recessive limb-girdle muscular dystrophy type 2L": "",
+                    "Becker muscular dystrophy": "",
+                    "Bethlem myopathy": "",
+                    "Central core disease": "",
+                    "Centronuclear myopathy": "",
+                    "Congenital muscular dystrophy type 1A": "",
+                    "Congenital muscular dystrophy, Ullrich type": "",
+                    "Duchenne muscular dystrophy": "",
+                    "Emery-Dreifuss muscular dystrophy": "",
+                    "Facioscapulohumeral dystrophy": "",
+                    "Glycogen storage disease due to acid maltase deficiency": "",
+                    "Healthy Subject": "",
+                    "Hereditary proximal myopathy with early respiratory failure": "",
+                    "Inclusion body myopathy with Paget disease of bone and frontotemporal dementia": "",
+                    "Multiminicore myopathy": "",
+                    "Myofibrillar myopathy": "",
+                    "Ring chromosome 14": "",
+                    "Steinert myotonic dystrophy": "",
+                    "X-linked adrenoleukodystrophy": ""
                 }
             }
         ]

@@ -8,74 +8,26 @@
             {
                 "Sample": {
                     "attributes": {
-                        "ID": "provid",
-                        "Parent sample ID": "GROUP_NAME",
-                        "Material type": "SAMPLE_TYPE",
-                        "Storage temperature": "",
-                        "Sampled time": "",
-                        "Anatomical site": "",
-                        "Sex": "T_GENDER",
-                        "Age": "T_AGE",
-                        "Age Unit": "",
-                        "Disease Ontology": "",
-                        "Disease Ontology Version": "",
-                        "Disease Ontology Code": "",
-                        "Disease Ontology Description": "",
-                        "Disease Free Text": "",
-                        "Sample Collection": "PROJECT_ID",
-                        "Study": "STUDY_CODE"
-                    }
-                }
-            },
-            {
-                "Sample Collection": {
-                    "attributes": {
-                    	"ID": "PROJECT_ID",
-                        "Acronym": "TITLE",
-                        "Name": "name",
-                        "Description": "DESCRIPTION",
-                        "Sex": "",
-                        "Age Low": "",
-                        "Age High": "",
-                        "Age Unit": "",
-                        "Data categories": "",
-                        "Material type": "",
-                        "Storage temperature": "",
-                        "Collection type": "",
-                        "Disease": "",
-                        "Contact Information": "CONTACT_ID"
-                    }
-                }
-            },
-            {
-                "Study": {
-                    "attributes": {
-                        "ID": "STUDY_CODE",
-                        "Name": "NAME",
-                        "Description": "DESCRIPTION",
-                        "Principal Investigator": "KI_STUDY_NAME",
-                        "Contact Information": "CONTACT_ID",
-                        "Study design": "KI_STUDY_TYPE",
-                        "Data categories": "",
-                        "Material type": "KI_SAMPLE_TYPE",
-                        "Total number of participants": "",
-                        "Total number of sample donors": "",
-                        "Inclusion criteria": ""
-                    }
-                }
-            },
-            {
-                "Contact Information": {
-                    "attributes": {
-                        "ID": "",
-                        "First name": "",
-                        "Last name": "",
-                        "Phone": "",
-                        "Email": "",
-                        "Address": "",
-                        "ZIP": "",
-                        "City": "",
-                        "Country": ""
+                        "Sample ID": "Sample ID",
+                        "Disease": "Diagnosis",
+                        "MIABIS Material Type": "MIABIS-Type",
+                        "Material Type": "Material Type",
+                        "Anatomical Site": "Anatomical Site",
+                        "Sex": "Gender",
+                        "Diagnosis Type": "Diagnosis Type",
+                        "Genotype data available": "Genotype data",
+                        "Age at Sampling": "Age at Sampling",
+                        "Age at Death": "Age at Death",
+                        "Age at Diagnosis": "Age at Diagnosis",
+                        "Age at Remission": "Age at Remission",
+                        "Affected": "Affected",
+                        "Family members available": "Family members",
+                        "Related samples available": "Related samples",
+                        "Registry data available": "Registry data",
+                        "Hosting Biobank": "Biobank",
+                        "Hosting Registry": "Registry",
+                        "Participant ID": "Participant ID",
+                        "Date of last update": "Last update"
                     }
                 }
             }
